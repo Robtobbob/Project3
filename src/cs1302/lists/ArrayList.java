@@ -9,25 +9,25 @@ import javax.lang.model.type.ArrayType;
 public class ArrayList<T extends Comparable<T>> implements List<T> {
 
 	@SuppressWarnings("unchecked")
-	private T[] array = (T[]) new Comparable[0];
+	private T[] _array = (T[]) new Comparable[0];
 	
 	@Override
 	public void append(T elem) {
 		
 		// create a temporary array
 		@SuppressWarnings("unchecked")
-		T[] tmp = (T[]) new Comparable[array.length + 1];
+		T[] tmp = (T[]) new Comparable[_array.length + 1];
 		
 		// copy elements from the original array into the temp array
-		for (int i = 0; i < array.length; i++) {
-			tmp[i] = array[i];
+		for (int i = 0; i < _array.length; i++) {
+			tmp[i] = _array[i];
 		} // for
 		
 		// add the element to the last position in the temp array
 		tmp[tmp.length - 1] = elem;
 
 		// replace the array with the temp array
-		array = tmp;
+		_array = tmp;
 		
 	} // append
 
@@ -35,29 +35,17 @@ public class ArrayList<T extends Comparable<T>> implements List<T> {
 	public void add(int idx, T elem) throws IndexOutOfBoundsException {
 		try{
 			@SuppressWarnings("unchecked")
-			T[] tmp = (T[]) new Comparable[array.length + 1];
+			T[] tmp = (T[]) new Comparable[_array.length + 1];
 			// copy elements from the original array into the temp array
-			for (int i = 0; i < array.length; i++) {
-				tmp[i] = array[i];
+			for (int i = 0; i < _array.length; i++) {
+				tmp[i] = _array[i];
 			}
 			// places the element in the array
-			for (int j = 0; j<tmp.length;j++){
-				T test = array[j];
-				if( j == idx && test == elem){
-					tmp[j]=elem;
-				}
-				else {
-					if (j == idx){
-						for (int k = idx; k<tmp.length;k++){
-							tmp[k+1] = tmp[k];
-						}
-						tmp[j] = elem;
-					}
-				}
-				
-				
+			for (int k = idx; k<_array.length;k++){
+				tmp[k+1] = _array[k];
 			}
-			array = tmp;
+			tmp[idx]= elem;
+			_array = tmp;
 			
 			}
 		catch(ArrayIndexOutOfBoundsException e){
@@ -68,9 +56,9 @@ public class ArrayList<T extends Comparable<T>> implements List<T> {
 	@Override
 	public T get(int idx) throws IndexOutOfBoundsException {
 		try{
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < _array.length; i++) {
 				if (i == idx){	
-					T elem = array[i];
+					T elem = _array[i];
 					return elem;
 				}
 			}
@@ -88,18 +76,18 @@ public class ArrayList<T extends Comparable<T>> implements List<T> {
 	public void prepend(T elem) {
 		// create a temporary array
 				@SuppressWarnings("unchecked")
-				T[] tmp = (T[]) new Comparable[array.length + 1];
+				T[] tmp = (T[]) new Comparable[_array.length + 1];
 				
 				// copy elements from the original array into the temp array
-				for (int i = 0; i < array.length; i++) {
-					tmp[i+1] = array[i];
+				for (int i = 0; i < _array.length; i++) {
+					tmp[i+1] = _array[i];
 				} // for
 				
 				// add the element to the first position in the temp array
 				tmp[0] = elem;
 
 				// replace the array with the temp array
-				array = tmp;
+				_array = tmp;
 	} // prepend
 
 	@Override
@@ -107,18 +95,21 @@ public class ArrayList<T extends Comparable<T>> implements List<T> {
 		try{
 		// create a temporary array
 				@SuppressWarnings("unchecked")
-				T[] tmp = (T[]) new Comparable[array.length + 1];
+				T[] tmp = (T[]) new Comparable[_array.length-1];
 				
 				// copy elements from the original array into the temp array
-				for (int i = 0; i < array.length; i++) {
+				for (int i=0 ,j = 0; i < _array.length; i++) {
 					if (i == idx){
-						continue; 
+						continue;
 					}
-					tmp[i] = array[i];
+					else{
+						tmp[j] = _array[i];
+						j++;
+					}
 				} // for
 		
 				// add the element to the last position in the temp array
-				array = tmp;
+				_array = tmp;
 		}
 		catch(ArrayIndexOutOfBoundsException e){
 			System.out.println(e);
@@ -133,13 +124,13 @@ public class ArrayList<T extends Comparable<T>> implements List<T> {
 	@Override
 	public int search(T s, int lo, int hi) throws IndexOutOfBoundsException {
 		try{
-		if (lo > array.length || hi > array.length){ 
+		if (lo >= _array.length || hi >= _array.length){ 
 			throw new IndexOutOfBoundsException(); 
 		}
-		for (int i= 0;i <array.length; i++){
-			T elem = array[i];
+		for (int i= 0;i <_array.length; i++){
+			T elem = _array[i];
 			if (elem == s){
-				return 1;
+				return i;
 			}
 		}
 		}
@@ -153,7 +144,7 @@ public class ArrayList<T extends Comparable<T>> implements List<T> {
 	@Override
 	public int size() {
 		int size=0;
-		for (int i = 0; i < array.length; i++) {
+		for (int i = 0; i < _array.length; i++) {
 			size++;
 		}
 		return size;

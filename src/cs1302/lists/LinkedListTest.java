@@ -10,7 +10,9 @@ public class LinkedListTest {
 	
 	@Test
 	public void testLifecyble() {
-		LinkedList<Integer> list = new LinkedList<>();
+		//LinkedList<Integer> list = new LinkedList<>();
+		LinkedList<Integer> list2 = new LinkedList<>();
+		/*
 		assertEquals(0, list.size());
 		
 		list.append(42);
@@ -31,7 +33,12 @@ public class LinkedListTest {
 		assertEquals(4, list.size());
 		list.remove(1);
 		assertEquals(3, list.size());
-		
+		*/
+		list2.prepend(50);
+		list2.add(0, 90);
+		//assertEquals(2,list2.size());
+		int idx = list2.search(90, 0, 1);
+		System.out.println(idx);
 		
 		
 	}
